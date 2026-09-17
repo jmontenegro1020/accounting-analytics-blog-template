@@ -6,24 +6,24 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: www.linkedin.com/in/joey-montenegro
     - icon: mailbox
       text: Email
-      href: mailto:yourname@sonoma.edu
+      href: mailto:montenegrj@sonoma.edu
 
 ---
 
-Your name is a student at Sonoma State University.  Her concentration is accounting, and she plans to become a certified public accountant (CPA).
+My name is Joey Montenegro and I have one more year left at SSU. I am Business Administration student focusing on accounting and I am going to pursue my CPA license. 
 
 
 ## Education
 
 Sonoma State University | Rohnert Park, CA
-BS in Business | start date - grad date
+BS in Business | January 2026 - December 2027
 
 
 ## Experience
 
-Accounting Firm | Accounting Intern | June 2025 - August 2025
+Sonoma County Regional Parks | Customer Service | May 2021 - Present
 
-Another Firm | Customer Service | Jan 2025 - June 2025
+Oliver's Market | Grocery Stocker | October 2022 - July 2023

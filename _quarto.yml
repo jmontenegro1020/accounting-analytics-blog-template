@@ -2,21 +2,21 @@ project:
   type: website
 
 website:
-  title: "Your Name - Accounting Analytics"
+  title: "Joey Montenegro - Accounting Analytics"
   navbar:
     background: primary
     search: true
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - about.qmd 
     # Assignment 2 asks you to make these two links your own: your email
     # address, and your LinkedIn profile.
     right:
       - icon: mail
-        href: mailto:youraddress@sonoma.edu
+        href: mailto:montenegrj@sonoma.edu
       - icon: linkedin
-        href: https://linkedin.com/in/yourprofile
+        href: www.linkedin.com/in/joey-montenegro
 
 format:
   html:
@@ -25,3 +25,4 @@ format:
       - brand
     css: styles.css
     toc: true
+

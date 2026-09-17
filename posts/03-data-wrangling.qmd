@@ -2,7 +2,7 @@
 title: "3: Data Wrangling"
 date: today
 execute:
-  eval: false
+  eval: true
   message: false
   warning: false
 ---
@@ -11,8 +11,7 @@ execute:
 
 ## Executive Summary
 
-*Write a 2-3 sentence summary of your analysis and key findings here after completing the assignment.*
-
+This post cleans and analyzes messy sales and customer data, fixing inconsistent dates, currency formatting, and text casing. The analysis found that sales grew steadily from January to March, with Services as the top-performing category and Mid-Market customers generating the highest average sale per person, while also flagging one transaction with an invalid customer ID for follow-up.
 ---
 
 ## Introduction
@@ -142,15 +141,15 @@ customers_raw |>
 sales_clean <- sales_raw |>
   mutate(
     # Fix dates: parse_date_time can handle multiple formats
-    sale_date = parse_date_time(_____, orders = c("mdy", "ymd")) |>
+    sale_date = parse_date_time(sale_date, orders = c("mdy", "ymd")) |>
                 as_date(),
 
     # Fix amounts: remove $ and , then convert to number
-    amount = str_remove_all(amount, "[_____]") |>  # Remove $ and ,
+    amount = str_remove_all(amount, "[$,]") |>  # Remove $ and ,
              as.numeric(),
 
     # Standardize text to Title Case
-    product_category = str_to_title(_____),
+    product_category = str_to_title(product_category),
 
     # Add useful columns for reporting
     month_name = month(sale_date, label = TRUE, abbr = FALSE)
@@ -168,10 +167,10 @@ sales_clean
 customers_clean <- customers_raw |>
   mutate(
     # Standardize customer names to Title Case
-    customer_name = str_to_title(_____),
+    customer_name = str_to_title(customer_name),
 
     # Replace blank segments with "Unclassified"
-    segment = if_else(segment == "", "_____", segment)
+    segment = if_else(segment == "", "Unclassified", segment)
   )
 
 # View cleaned customer data
@@ -188,7 +187,7 @@ customers_clean
 # Combine sales and customer data
 # Use left_join to keep all sales, even if customer not found
 sales_complete <- sales_clean |>
-  left_join(_____, by = "_____")
+  left_join(customers_clean, by = "customer_id")
 
 # View the combined data
 glimpse(sales_complete)
@@ -201,7 +200,7 @@ glimpse(sales_complete)
 #| label: problem-sales
 # Find sales without valid customer info
 problem_sales <- sales_complete |>
-  filter(is.na(_____)) |>  # Check for missing customer_name
+  filter(is.na(customer_name)) |>  # Check for missing customer_name
   select(transaction_id, customer_id, amount, sale_date)
 
 problem_sales
@@ -218,11 +217,11 @@ problem_sales
 # Calculate monthly sales (excluding problem transactions)
 monthly_sales <- sales_complete |>
   filter(!is.na(customer_name)) |>  # Only valid customers
-  group_by(_____) |>  # Group by month_name
+  group_by(month_name) |>  # Group by month_name
   summarise(
-    total_sales = sum(_____),
+    total_sales = sum(amount),
     transaction_count = n(),
-    average_sale = mean(_____)
+    average_sale = mean(amount)
   )
 
 # View monthly summary
@@ -244,7 +243,7 @@ monthly_sales |>
 # Analyze sales by product
 product_summary <- sales_complete |>
   filter(!is.na(customer_name)) |>
-  group_by(_____) |>  # Group by product_category
+  group_by(product_category) |>  # Group by product_category
   summarise(
     total_sales = sum(amount),
     count = n()
@@ -265,10 +264,10 @@ product_summary
 # Analyze by customer segment
 segment_summary <- sales_complete |>
   filter(!is.na(customer_name)) |>
-  group_by(_____) |>  # Group by segment
+  group_by(segment) |>  # Group by segment
   summarise(
     total_sales = sum(amount),
-    customer_count = n_distinct(_____),  # Count unique customers
+    customer_count = n_distinct(customer_id),  # Count unique customers
     avg_per_customer = total_sales / customer_count
   )
 
@@ -312,8 +311,8 @@ data_quality
 
 Based on the analysis above, complete these insights:
 
-- **Monthly Trend**: Sales (increased/decreased) from January to March, with the highest sales in _____.
-- **Product Performance**: _____ generated the most revenue, accounting for _____ of total sales.
-- **Customer Segments**: The _____ segment had the highest average sale per customer at _____.
-- **Data Quality**: We identified _____ transaction(s) with invalid customer IDs that need investigation.
+- **Monthly Trend**: Sales (increased) from January to March, with the highest sales in March.
+- **Product Performance**: Services generated the most revenue, accounting for 45.8% of total sales.
+- **Customer Segments**: The Mid-Market segment had the highest average sale per customer at $33,750.00.
+- **Data Quality**: We identified 1 transaction(s) with invalid customer IDs that need investigation.
 

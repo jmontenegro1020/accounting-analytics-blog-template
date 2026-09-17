@@ -1,0 +1,4 @@
+- source: project
+  netlify:
+    - id: df06046f-3eeb-4f08-a4c7-aca6249a1249
+      url: https://spontaneous-moxie-a6ac54.netlify.app
